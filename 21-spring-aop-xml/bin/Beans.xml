@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
+
+   <!-- bean definition & AOP specific configuration -->
+   <aop:config>
+   		<aop:aspect id="myAspect" ref="logging">
+			<aop:pointcut id="businessService" 
+					expression="execution(* com.spring.Student.getName(..))" />
+			<aop:before method="beforeGetName" 
+					pointcut-ref="businessService"/>		
+			<aop:after method="afterGetName" 
+					pointcut-ref="businessService"/>		
+			<aop:after-returning method="returnGetName" 
+					pointcut-ref="businessService" returning="result"/>		
+   		</aop:aspect>
+   </aop:config>
+   
+   
+   
+   
+   <bean id="student" class="com.spring.Student">
+		<property name="name" value="peng" />
+ 		<property name="age" value="17" />
+	</bean>
+	
+	<bean id="logging" class="com.spring.Logging" />
+</beans>
